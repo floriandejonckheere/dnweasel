@@ -17,8 +17,11 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
+#include "weasel.h"
+
 #define	PORT		8376
 #define	MAX_LEN		4096
+#define	MAX_MUT		10	// mutations
 #define	BACKLOG		5
 
 static struct option long_options[] = {
@@ -207,6 +210,8 @@ int main(int argc, char** argv){
 			}
 			buffer[bytes] = '\0';
 			printf("> %s: %s (%i bytes)\n", host, buffer, bytes);
+
+			sleep(1);
 		}
 
 		close(sock);

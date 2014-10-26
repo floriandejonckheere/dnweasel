@@ -1,3 +1,4 @@
 dnweasel
 *.o
 *.gch
+build/
