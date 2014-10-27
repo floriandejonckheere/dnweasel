@@ -11,7 +11,8 @@
 #define	PROBABILITY	0.05
 #define	OFFSPRING	100
 
-char* weasel(char *target, char *intermediate);
+char* weasel(char *target, char *start);
 int score(char *target, char *mutant);
+char randomChar();
 
 #endif

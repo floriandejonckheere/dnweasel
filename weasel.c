@@ -25,17 +25,17 @@ int score(char *target, char *mutant){
 	return score;
 }
 
-char* weasel(char *target, char *intermediate){
+char* weasel(char *target, char *start){
 	srand48(time(NULL));
 	char parent[strlen(target)], mutant[strlen(target)];
 	char *winner = malloc(strlen(target) * sizeof(char));
 
 	int i, j;
-	if(intermediate == NULL){
+	if(start == NULL){
 		for(i = 0; i < strlen(target); i++){
 			parent[i] = randomChar();
 		}
-	} else strncpy(parent, intermediate, strlen(target));
+	} else strncpy(parent, start, strlen(target));
 
 	int cur_score, max_score = 0;
 	for(i = 0; i < OFFSPRING; i++){

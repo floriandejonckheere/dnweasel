@@ -1,5 +1,5 @@
 CC	:= gcc
-CFLAGS	:= -fPIC -g -O3 -Wall -Werror
+CFLAGS	:= -g -fPIC -g -O3 -Wall -Werror
 LDFLAGS	:= -lm
 MAJOR	:= 0
 MINOR	:= 1
@@ -8,9 +8,9 @@ VERSION	:= $(MAJOR).$(MINOR)
 LIBNAME	:= weasel
 BINNAME	:= dnweasel
 
-all: default lib test
-
 default: $(BINNAME)
+
+all: default lib test
 
 lib: lib$(LIBNAME).so.$(VERSION)
 

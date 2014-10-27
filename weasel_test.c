@@ -15,7 +15,6 @@
 
 static struct option long_options[] = {
 	{"message",	required_argument,	NULL, 'm'},
-	{"iterations",	required_argument,	NULL, 'i'},
 	{0}
 };
 
@@ -48,18 +47,21 @@ int main(int argc, char** argv){
 		}
 	}
 
-	char *mutant = malloc(strlen(msg) * sizeof(char));
-	int i, max_score = 0;
+	char mutant[strlen(msg)] = msg;
+	char *offspring;
+	int i = 0;
+	int max_score = 0;
 	do {
-		char *offspring = weasel(msg, (i == 0 ? NULL : mutant));
+		offspring = weasel(msg, (i == 0 ? NULL : mutant));
 		printf("%s (score %i)\n", offspring, score(msg, offspring));
 		if(score(msg, offspring) > max_score){
 			max_score = score(msg, offspring);
 			strncpy(mutant, offspring, strlen(msg));
 		}
+		free(offspring);
 		i++;
 	} while(max_score < strlen(msg));
 	printf("Winner: %s (score %i) in %i iterations\n", mutant, score(msg, mutant), i);
-	
+
 	exit(EXIT_SUCCESS);
 }
