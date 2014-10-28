@@ -13,14 +13,20 @@
 
 #include "weasel.h"
 
+/*
+ * Uncomment the following lines if you
+ * want to omit printing repeated strings
+ * */
+//#define OMIT_REPEATED
+
 static struct option long_options[] = {
 	{"message",	required_argument,	NULL, 'm'},
 	{0}
 };
 
 void print_usage(char* progname){
-	fprintf(stderr, "Usage: %s [OPTIONS]", progname);
-	fprintf(stderr, "-m, --message\tTarget string (METHINKS IT IS LIKE A WEASEL)");
+	fprintf(stderr, "Usage: %s [OPTIONS]\n", progname);
+	fprintf(stderr, "\t-m, --message\tTarget string (METHINKS IT IS LIKE A WEASEL)\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -47,13 +53,17 @@ int main(int argc, char** argv){
 		}
 	}
 
-	char mutant[strlen(msg)] = msg;
+	char mutant[strlen(msg)];
+	strncpy(mutant, msg, strlen(msg));
 	char *offspring;
-	int i = 0;
-	int max_score = 0;
+	int i, max_score;
+	i = max_score = 0;
 	do {
 		offspring = weasel(msg, (i == 0 ? NULL : mutant));
-		printf("%s (score %i)\n", offspring, score(msg, offspring));
+		#ifdef OMIT_REPEATED
+		if(strcmp(mutant, offspring) != 0)
+		#endif
+			printf("%s (score %i)\n", offspring, score(msg, offspring));
 		if(score(msg, offspring) > max_score){
 			max_score = score(msg, offspring);
 			strncpy(mutant, offspring, strlen(msg));

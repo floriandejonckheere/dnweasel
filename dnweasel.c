@@ -22,6 +22,7 @@
 #define	PORT		8376
 #define	MAX_LEN		4096
 #define	BACKLOG		5
+#define	SEND_DELAY	1		// Seconds
 
 static struct option long_options[] = {
 	{"listen",	no_argument,		NULL, 'l'},
@@ -153,6 +154,8 @@ int main(int argc, char** argv){
 			strncpy(buffer, offspring, strlen(target));
 			free(offspring);
 
+			sleep(SEND_DELAY);
+
 			printf("< %s: %s (score: %i)\n", ip4, buffer, score(target, buffer));
 			if(send(sock_cli, buffer, strlen(buffer), 0) < 0){
 				perror("send");
@@ -211,7 +214,7 @@ int main(int argc, char** argv){
 		for(i = 0; i < strlen(target); i++){
 			buffer[i] = randomChar();
 		}
-		buffer[MAX_LEN] = '\0';
+		buffer[MAX_LEN - 1] = '\0';
 
 		int bytes;
 		do {
@@ -236,7 +239,7 @@ int main(int argc, char** argv){
 			strncpy(buffer, offspring, strlen(target));
 			free(offspring);
 
-			sleep(1);
+			sleep(SEND_DELAY);
 		} while(score(target, buffer) < strlen(target));
 
 		close(sock);

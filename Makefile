@@ -1,34 +1,18 @@
 CC	:= gcc
 CFLAGS	:= -g -fPIC -g -O3 -Wall -Werror
 LDFLAGS	:= -lm
-MAJOR	:= 0
-MINOR	:= 1
-VERSION	:= $(MAJOR).$(MINOR)
+LIB	:= weasel
 
-LIBNAME	:= weasel
 BINNAME	:= dnweasel
+TEST	:= weasel_test
 
-default: $(BINNAME)
+all: $(BINNAME) $(TEST)
 
-all: default lib test
+$(TEST):
+	$(CC) $(CFLAGS) $(TEST).c $(LIB).c -o $(TEST) $(LDFLAGS)
 
-lib: lib$(LIBNAME).so.$(VERSION)
-
-test: $(LIBNAME)_test
-	LD_LIBRARY_PATH=. ./$(LIBNAME)_test
-
-$(BINNAME): lib$(LIBNAME).so
-	$(CC) $(BINNAME).c -o $@ -L. -l$(LIBNAME) $(LDFLAGS)
-
-$(LIBNAME)_test: lib$(LIBNAME).so
-	$(CC) $(LIBNAME)_test.c -o $@ -L. -l$(LIBNAME) $(LDFLAGS)
-
-lib$(LIBNAME).so: lib$(LIBNAME).so.$(VERSION)
-	ldconfig -v -n .
-	ln -s lib$(LIBNAME).so.$(MAJOR) lib$(LIBNAME).so
-
-lib$(LIBNAME).so.$(VERSION): $(LIBNAME).o
-	$(CC) -shared -Wl,-soname,lib$(LIBNAME).so.$(MAJOR) $^ -o $@
+$(BINNAME):
+	$(CC) $(CFLAGS) $(BINNAME).c $(LIB).c -o $(BINNAME) $(LDFLAGS)
 
 clean:
-	$(RM) $(BINNAME) $(LIBNAME)_test *.o *.so*
+	$(RM) $(BINNAME) $(TEST)

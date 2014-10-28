@@ -40,10 +40,16 @@ char* weasel(char *target, char *start){
 	int cur_score, max_score = 0;
 	for(i = 0; i < OFFSPRING; i++){
 		for(j = 0; j < strlen(target); j++){
-			if(drand48() < PROBABILITY) 
-				mutant[j] = randomChar();
-			else
-				mutant[j] = parent[j];
+			#ifdef LOCKING
+			if(mutant[j] != target[j]){
+			#endif
+				if(drand48() < PROBABILITY)
+					mutant[j] = randomChar();
+				else
+					mutant[j] = parent[j];
+			#ifdef LOCKING
+			}
+			#endif
 		}
 		mutant[strlen(target)] = '\0';
 

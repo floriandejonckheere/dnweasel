@@ -1,22 +1,20 @@
 # Dawkins' Network Weasel
 
-Dnweasel is a networked version of [Dawkin's weasel algorithm](http://en.wikipedia.org/wiki/Weasel_program). The client starts by sending a chosen string over the network to the server, and then the two components apply Dawkin's algorithm to the string and send it back.
+Dnweasel is a networked version of [Dawkin's weasel algorithm](http://en.wikipedia.org/wiki/Weasel_program). The client starts by sending a chosen string over the network to the server, and then the two components apply Dawkin's algorithm to the string and send it back after a certain delay.
 
 ## Usage
 
-The weasel algorithm is placed in a separate dynamic library. To make your system find it after compiling, set the library path environment variable.
-
-`export LD_LIBRARY_PATH=.`
-
-To build only the library, `make` the `lib` target.
-
-To build the test program, `make` the `test` target.
-
-To build the main program, `make` the `dnweasel` target.
+The main binary is `dnweasel`. Another binary, `weasel_test` is provided to test out the weasel algorithm.
 
 ```
+$ ./dnweasel
 Usage: Listen for inbound:	./dnweasel -l [-p port]
 	Connect to somewhere:	./dnweasel -h hostname [-t target string] [-p port]
+
+$ ./weasel_test -h
+Usage: ./weasel_test [OPTIONS]
+	-m, --message	Target string (METHINKS IT IS LIKE A WEASEL)
+
 ```
 
 Execute the program server-side by running `./dnweasel -l`. Then execute the program client-side by running
